@@ -1,0 +1,2 @@
+# Defense in depth if the web-server document root is ever misconfigured.
+Require all denied

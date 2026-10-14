@@ -54,8 +54,10 @@ Failed run:
 
 ```text
 HTTP 500
-ERROR ...
+ERROR synchronization failed
 ```
+
+Detailed failures are kept in the application's sync history and may also be written to the server/PHP error log. Internal exception details are not returned by the public cron endpoint.
 
 Wrong/missing token:
 

@@ -32,7 +32,28 @@ https://phonebook.example.de/export.php?device=dev_0123456789ab&book=contacts&to
 
 Treat the entire URL as a secret because the token is part of the query string.
 
-## 3. Configure the Yealink phone
+## 3. Test the generated URL
+
+Before configuring the phone, verify the generated URL from a trusted browser or command line. Keep the real token private.
+
+Example with a placeholder token:
+
+```bash
+curl 'https://phonebook.example.de/export.php?device=dev_0123456789ab&book=contacts&token=<DEVICE_TOKEN>'
+```
+
+A successful response starts with Yealink XML similar to:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<YealinkIPPhoneDirectory>
+```
+
+A wrong token must return HTTP `403`. If no Google synchronization has completed yet, the server returns HTTP `503`.
+
+Do not paste the real URL into public logs, issues or screenshots.
+
+## 4. Configure the Yealink phone
 
 In the Yealink web interface open the Remote Phone Book configuration. Menu names can vary by model/firmware, commonly under:
 
@@ -49,7 +70,7 @@ Remote URL:   <generated contacts URL>
 
 The T54W configuration tested with this project does not require separate username/password fields because authentication is performed with the per-device token in the URL.
 
-## 4. Refresh interval
+## 5. Refresh interval
 
 Choose a refresh interval appropriate for the actual use of the phone.
 
@@ -71,7 +92,7 @@ Yealink directory:   once per day
 
 The server cache can therefore be current even if the phone downloads it only once daily.
 
-## 5. Number labels
+## 6. Number labels
 
 Phonebook Sync preserves Google phone-number labels and renders them in Yealink XML, for example:
 
@@ -85,7 +106,7 @@ Phonebook Sync preserves Google phone-number labels and renders them in Yealink 
 
 This avoids generic labels such as `Nummer 1`, `Nummer 2` where the Yealink firmware supports Remote Phone Book labels.
 
-## 6. Central blocklist directory
+## 7. Central blocklist directory
 
 When enabled for a device, a second URL is generated:
 
@@ -101,7 +122,7 @@ Sperrliste
 
 Important: this directory is a centrally maintained list and **does not itself make the Yealink reject calls**. Actual call blocking remains a local Yealink blocklist function. Entries can be used as a convenient source for manual transfer where supported by the phone.
 
-## 7. Device access status
+## 8. Device access status
 
 Each successful directory request updates:
 
@@ -111,7 +132,7 @@ Each successful directory request updates:
 
 This makes it easy to verify from the admin UI whether the phone is still fetching the directory.
 
-## 8. Token rotation
+## 9. Token rotation
 
 If a device URL becomes exposed:
 
@@ -123,6 +144,6 @@ If a device URL becomes exposed:
 
 The old token immediately stops working.
 
-## 9. Remove a device
+## 10. Remove a device
 
 Deleting a device removes its authorization. Its previous URL becomes invalid immediately.

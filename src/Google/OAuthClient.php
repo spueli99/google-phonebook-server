@@ -114,7 +114,7 @@ final class OAuthClient
             CURLOPT_TIMEOUT => 30,
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_USERAGENT => 'PhonebookSync/0.2.1',
+            CURLOPT_USERAGENT => 'PhonebookSync/0.2.2',
         ]);
         if ($body !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $body);

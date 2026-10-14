@@ -42,7 +42,7 @@ From the repository root:
 cp config/config.example.php config/local.php
 ```
 
-`config/local.php` is ignored by Git and must never be committed.
+`config/local.php` is ignored by Git and must never be committed. It contains secrets and should be readable only by the hosting/PHP account where the environment permits it.
 
 ## 5. Generate the admin password hash
 
@@ -132,14 +132,20 @@ There is one contact cache: `storage/cache/contacts.json`. Yealink XML is render
 
 ## 10. File permissions
 
-Typical shared-hosting permissions are sufficient:
+Typical shared-hosting permissions are sufficient for application code:
 
 ```text
-directories 0755
-files       0644
+directories       0755
+application files 0644
 ```
 
-Runtime files created by the application are reduced to `0600` where the hosting environment permits it.
+For the secret local configuration, prefer:
+
+```text
+config/local.php  0600
+```
+
+when the hosting environment permits it. Runtime files created by the application are also reduced to `0600` where supported.
 
 The PHP process must be able to write to `storage/` and `storage/cache/`.
 
@@ -201,7 +207,7 @@ The server creates:
 - a contact Remote Phone Book URL
 - optionally a second blocklist directory URL
 
-Copy the contact URL to the Yealink configuration. See [YEALINK.md](YEALINK.md).
+Before entering the URL on the phone, test it once as described in [YEALINK.md](YEALINK.md). Then copy the contact URL to the Yealink configuration. Treat the complete URL as a secret because it contains the device token.
 
 ## 16. Configure automatic synchronization
 
@@ -223,3 +229,4 @@ See [CRON.md](CRON.md).
 - a wrong device token returns `403`
 - device access time increases after the phone fetches the directory
 - `config/`, `storage/`, `src/` and `tools/` cannot be accessed via the public hostname
+- full device URLs and the cron URL have not been published in screenshots, tickets or GitHub issues

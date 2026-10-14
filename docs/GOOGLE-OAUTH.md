@@ -64,9 +64,11 @@ Add the Google account whose contacts will be synchronized under:
 Audience → Test users → Add users
 ```
 
-Important: for an External app in Testing status, Google documents that refresh tokens normally expire after **7 days** when scopes beyond basic identity scopes are requested. `contacts.readonly` is such a scope. A permanent installation therefore should not accidentally remain in Testing forever.
+Important: for an External app in **Testing** status, Google documents that refresh tokens normally expire after **7 days** when scopes beyond basic identity scopes are requested. `contacts.readonly` is such a scope. That means a cron-driven installation can stop synchronizing after about a week even though the initial login worked.
 
-Google also documents a personal-use exception from OAuth verification for an app used only by you or a small number of people personally known to you. Such an unverified personal app can still show an unverified-app warning and remains subject to Google's user limits. Review the current Google Auth Platform publishing/verification status before relying on unattended long-term synchronization.
+For unattended long-term use, review the application's publishing status in Google Auth Platform before relying on cron synchronization. Do not assume that adding yourself as a test user removes the seven-day refresh-token limit.
+
+Google also documents a personal-use exception from OAuth verification for an app used only by you or a small number of people personally known to you. This is separate from the Testing refresh-token lifetime: an unverified personal-use app can still show an unverified-app warning and remains subject to Google's applicable limits. Follow the current Google Auth Platform guidance for the account and scope in use.
 
 ## 5. Configure data access
 
@@ -171,7 +173,7 @@ The redirect URI in Google Cloud must exactly equal the value in `config/local.p
 
 ### Google disconnects after about seven days
 
-Check whether the OAuth application is still External + Testing. Google documents a seven-day lifetime for refresh tokens in this configuration when non-basic scopes such as contact access are used.
+Check whether the OAuth application is still External + Testing. Google documents a seven-day lifetime for refresh tokens in this configuration when non-basic scopes such as contact access are used. For unattended synchronization, review the publishing status in Google Auth Platform and reconnect Google after changing the OAuth configuration if necessary.
 
 ### Contacts are missing
 

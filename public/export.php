@@ -25,7 +25,8 @@ $type = (string)($device['type'] ?? '');
 if ($book === 'contacts') {
     if (empty($device['contacts_enabled'])) {
         http_response_code(404);
-        exit('Contact directory disabled');
+        header('Content-Type: text/plain; charset=utf-8');
+        exit("Contact directory disabled\n");
     }
     if (empty($app->state->all()['last_sync'])) {
         http_response_code(503);
@@ -40,18 +41,21 @@ if ($book === 'contacts') {
 } elseif ($book === 'blocklist') {
     if ($type !== 'yealink' || empty($device['blocklist_directory_enabled'])) {
         http_response_code(404);
-        exit('Blocklist directory disabled');
+        header('Content-Type: text/plain; charset=utf-8');
+        exit("Blocklist directory disabled\n");
     }
     $contacts = $app->blocklist->asContacts();
     $exporter = new YealinkExporter();
 } else {
     http_response_code(404);
-    exit('Unknown directory');
+    header('Content-Type: text/plain; charset=utf-8');
+    exit("Unknown directory\n");
 }
 
 if ($exporter === null) {
     http_response_code(404);
-    exit('Unsupported device type');
+    header('Content-Type: text/plain; charset=utf-8');
+    exit("Unsupported device type\n");
 }
 
 $payload = $exporter->render($contacts);

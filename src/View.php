@@ -5,7 +5,7 @@ namespace Phonebook;
 
 final class View
 {
-    public const VERSION = '0.2.1';
+    public const VERSION = '0.2.2';
 
     public static function e(mixed $value): string
     {

@@ -16,6 +16,7 @@ try {
     $result = $app->syncService()->run('cron');
     echo 'OK contacts=' . (int)$result['contacts'] . ' numbers=' . (int)$result['numbers'] . ' duration_ms=' . (int)$result['duration_ms'] . "\n";
 } catch (Throwable $e) {
+    error_log('Phonebook cron synchronization failed: ' . $e->getMessage());
     http_response_code(500);
-    echo 'ERROR ' . $e->getMessage() . "\n";
+    echo "ERROR synchronization failed\n";
 }

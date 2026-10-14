@@ -15,7 +15,7 @@ tools/
 docs/
 ```
 
-`config/`, `src/` and `storage/` also contain `.htaccess` deny rules as defense in depth, but they are not a substitute for a correct DocumentRoot.
+`config/`, `src/` and `storage/` contain `.htaccess` deny rules as defense in depth, but they are not a substitute for a correct DocumentRoot. The application is designed so that these directories are not web-accessible at all.
 
 ## Secrets and private data
 
@@ -31,7 +31,7 @@ Never commit or publish:
 - runtime JSON data under `storage/`
 - exported contact data
 
-The supplied `.gitignore` excludes the local configuration and runtime storage files.
+The supplied `.gitignore` excludes the local configuration and runtime storage files. Where the hosting environment permits it, restrict `config/local.php` to the web/PHP account only (for example `0600`).
 
 ## Authentication boundaries
 
