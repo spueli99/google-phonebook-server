@@ -1,0 +1,17 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP syntax
+        run: find . -name '*.php' -not -path './storage/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Tests
+        run: php tests/run.php
